@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProductGrpc.Protos";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProductProtoService{
+	rpc GetProduct (GetProductReq) returns (ProductModel); 
+	/*{
+		option (google.api.http) = {
+			get: "/v1/product/getproduct/{productId}"
+		};
+	}*/
+	rpc GetAllProduct (GetAllProductReq) returns (stream ProductModel); 
+	/*{
+		option (google.api.http) = {
+			get: "/v1/product/getallproduct"
+		};
+	}*/
+
+	rpc AddProduct (AddProductReq) returns (ProductModel); 
+	/*{
+		option (google.api.http) = {
+			post: "/v1/product/addproduct"
+			body: "*"
+		};
+	}*/
+	rpc UpdateProduct (UpdateProductReq) returns (ProductModel); 
+	/*{
+		option (google.api.http) = {
+			post: "/v1/product/updateproduct"
+			body: "*"
+		};
+	}*/
+	rpc DeleteProduct (DeleteProductReq) returns (DeleteProductRes); 
+	/*{
+		option (google.api.http) = {
+			post: "/v1/product/deleteproduct"
+			body: "*"
+		};
+	}*/
+
+	rpc InsertBulkProduct (stream DeleteProductReq) returns (InsertBulkProductRes); 
+	/*{
+		option (google.api.http) = {
+			post: "/v1/product/insertbulkproduct"
+			body: "*"
+		};
+	}*/
+	rpc Test (google.protobuf.Empty) returns (google.protobuf.Empty); 
+	/*{
+		option (google.api.http) = {
+			post: "/v1/product/test"
+			body: "*"
+		};
+	}*/
+}
+
+message GetProductReq {
+	int32 productId = 1;
+}
+
+message GetAllProductReq{
+
+}
+
+message AddProductReq{
+	ProductModel product = 1;
+}
+
+message UpdateProductReq{
+	ProductModel product = 1;
+}
+
+message DeleteProductReq{
+	int32 productId = 1;
+}
+
+message DeleteProductRes{
+	bool success =1;
+}
+
+message InsertBulkProductRes{
+	bool success =1;
+}
+
+message ProductModel{
+	int32 productId = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+    ProductStatus status = 5;
+	google.protobuf.Timestamp createdTime = 6;
+}
+
+enum ProductStatus{
+	INSTOCK = 0;
+    LOW = 1;
+    NONE = 2;
+}
