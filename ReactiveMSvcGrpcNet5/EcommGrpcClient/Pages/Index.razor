@@ -1,0 +1,27 @@
+﻿@page "/"
+@inject GrpcChannel Channel
+@using Google.Protobuf.WellKnownTypes
+
+@if (productModels != null)
+{
+    <BSCard CardType="CardType.Columns">
+        @foreach (var item in productModels)
+        {
+            <BSCard>
+                <BSCard CardType="CardType.Image" VerticalAlignment="VerticalAlignment.Top" src="images/work2.jpg" alt="Card image cap" />
+                <BSCard CardType="CardType.Body">
+                    <BSCard CardType="CardType.Title">@item.Name</BSCard>
+                    <BSCard CardType="CardType.Subtitle">@item.Price | @item.Status | @item.CreatedTime</BSCard>
+                    <BSCard CardType="CardType.Text">@item.Description</BSCard>
+                    <BSButton Color="Color.Secondary">Buy</BSButton>
+                </BSCard>
+            </BSCard>
+        }
+    </BSCard>
+}
+else
+{
+    <h4>Data Empty...</h4>
+}
+
+<SurveyPrompt Title="How is Blazor working for you?" />
