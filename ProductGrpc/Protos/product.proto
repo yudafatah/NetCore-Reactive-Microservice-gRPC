@@ -41,7 +41,7 @@ service ProductProtoService{
 		};
 	}*/
 
-	rpc InsertBulkProduct (stream DeleteProductReq) returns (InsertBulkProductRes); 
+	rpc InsertBulkProduct (stream ProductModel) returns (InsertBulkProductRes); 
 	/*{
 		option (google.api.http) = {
 			post: "/v1/product/insertbulkproduct"
