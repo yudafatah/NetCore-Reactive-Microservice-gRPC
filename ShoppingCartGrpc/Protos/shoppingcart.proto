@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option csharp_namespace = "ShoppingCartGrpc.Protos";
+
+service ShoppingCartProtoService {
+	rpc GetShoppingCart (GetShoppingCartReq) returns (ShoppingCartModel);
+
+	rpc CreateShoppingCart (ShoppingCartModel) returns (ShoppingCartModel);
+
+	rpc AddItemIntoShoppingCart (stream AddItemIntoShoppingCartReq) returns (AddItemIntoShoppingCartRes);
+	rpc RemoveItemIntoShoppingCart (RemoveItemIntoShoppingCartReq) returns (RemoveItemIntoShoppingCartRes);
+}
+
+message GetShoppingCartReq {
+	string username = 1;
+}
+
+message AddItemIntoShoppingCartReq {
+	string username = 1;
+	string discountCode = 2;
+	ShoppingCartItemModel newCartItem = 3;
+}
+
+message AddItemIntoShoppingCartRes {
+	bool success = 1;
+	int32 insertCount = 2;
+}
+
+message RemoveItemIntoShoppingCartReq {
+	string username = 1;
+	ShoppingCartItemModel removeCartItem = 2;
+}
+
+message RemoveItemIntoShoppingCartRes {
+	bool success = 1;
+}
+
+message ShoppingCartModel {	
+	string username = 1;
+	repeated ShoppingCartItemModel cartItems = 2;
+}
+
+message ShoppingCartItemModel {
+	int32 quantity = 1;
+	string color = 2;
+	float price = 3;
+	int32 productId = 4;
+	string productName = 5;
+}
