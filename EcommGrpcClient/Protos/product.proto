@@ -13,7 +13,7 @@ service ProductProtoService{
 	rpc UpdateProduct (UpdateProductReq) returns (ProductModel);
 	rpc DeleteProduct (DeleteProductReq) returns (DeleteProductRes);
 
-	rpc InsertBulkProduct (stream DeleteProductReq) returns (InsertBulkProductRes);
+	rpc InsertBulkProduct (stream ProductModel) returns (InsertBulkProductRes);
 	rpc Test (google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
