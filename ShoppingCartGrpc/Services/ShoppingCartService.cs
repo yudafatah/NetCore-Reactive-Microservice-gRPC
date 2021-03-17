@@ -13,12 +13,15 @@ namespace ShoppingCartGrpc.Services
     public class ShoppingCartService : ShoppingCartProtoService.ShoppingCartProtoServiceBase
     {
         private readonly ShoppingCartContext shoppingCartContext;
+        private readonly DiscountService discountService;
         private readonly ILogger<ShoppingCartService> logger;
         private readonly IMapper mapper;
 
-        public ShoppingCartService(ShoppingCartContext shoppingCartContext, ILogger<ShoppingCartService> logger, IMapper mapper)
+        public ShoppingCartService(ShoppingCartContext shoppingCartContext, DiscountService discountService, 
+            ILogger<ShoppingCartService> logger, IMapper mapper)
         {
             this.shoppingCartContext = shoppingCartContext ?? throw new ArgumentNullException(nameof(shoppingCartContext));
+            this.discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -98,8 +101,10 @@ namespace ShoppingCartGrpc.Services
 
                 if(cartItem == null)
                 {
-                    float discount = 100;
-                    item.NewCartItem.Price -= discount;
+                    // grpc call discount service
+                    var discount = await discountService.GetDiscount(item.DiscountCode);
+
+                    item.NewCartItem.Price -= discount == null? 0 : discount.Amount;
 
                     shoppingCart.items.Add(mapper.Map<ShoppingCartItem>(item.NewCartItem));
                 }
