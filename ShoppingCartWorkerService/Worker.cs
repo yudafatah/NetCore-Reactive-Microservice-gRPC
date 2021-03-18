@@ -25,6 +25,9 @@ namespace ShoppingCartWorkerService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            // testing only: waiting server to up
+            Thread.Sleep(5000);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 using var scChannel = GrpcChannel.ForAddress(configuration["WorkerService:ShoppingCartGrpcUrl"]);
@@ -62,7 +65,7 @@ namespace ShoppingCartWorkerService
                 }
                 else
                 {
-                    throw exception;
+                    throw;
                 }
             }
 
